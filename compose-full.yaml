@@ -1,0 +1,42 @@
+services:
+  api:
+    image: todo-api:1.0
+    ports:
+      - "8585:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otelcol:4317
+    depends_on:
+      - mongodb
+      - otelcol
+      - loki
+      - tempo
+      - prometheus
+      - grafana
+  mongodb:
+    image: mongo
+  otelcol:
+    image: otel/opentelemetry-collector-contrib:latest
+    volumes:
+      - ./config/otelcol:/etc/otelcol-contrib
+  loki:
+    image: grafana/loki:latest
+  tempo:
+    image: grafana/tempo:latest
+    command:
+      - --config.file=/etc/tempo-config.yaml
+    volumes:
+      - ./config/tempo/config.yaml:/etc/tempo-config.yaml
+      - ./data/tempo:/var/tempo
+  prometheus:
+    image: prom/prometheus:latest
+    command:
+      - --web.enable-remote-write-receiver
+      - --enable-feature=native-histograms
+      - --config.file=/etc/prometheus/prometheus.yml
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - ./data/grafana:/var/lib/grafana
