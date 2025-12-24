@@ -1,0 +1,26 @@
+deploymentMode: SingleBinary
+loki:
+  commonConfig:
+    replication_factor: 1
+  auth_enabled: false
+  storage:
+    type: 'filesystem'
+    bucketNames:
+      chunks: "loki-chunks"
+  schemaConfig:
+    configs:
+      - from: 2024-04-01
+        object_store: filesystem
+        store: tsdb
+        schema: v13
+        index:
+          prefix: index_
+          period: 24h
+singleBinary:
+  replicas: 1
+write:
+  replicas: 0
+read:
+  replicas: 0
+backend:
+  replicas: 0

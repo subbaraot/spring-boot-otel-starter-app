@@ -18,6 +18,28 @@ exporters:
     endpoint: http://prometheus:9090/api/v1/write
   otlphttp/loki:
     endpoint: http://loki:3100/otlp
+  otlphttp/prometheus:
+    endpoint: http://prometheus:9090/api/v1/otlp
+  influxdb:
+    endpoint: http://host.docker.internal:8086
+    org: Local
+    bucket: telemetry
+    token: 59fliF1pvvP5413iAqk29VkXGr0op_keTY_zNkA1tCx2unP68UNu0hRNoZOqwipXHh3hurlsujjrxP74SfOF7Q==
+    span_dimensions:
+    - service.name
+    - span.name
+    log_record_dimensions:
+    - service.name
+    metrics_schema: telegraf-prometheus-v1
+    sending_queue:
+      enabled: true
+      num_consumers: 3
+      queue_size: 10
+    retry_on_failure:
+      enabled: true
+      initial_interval: 1s
+      max_interval: 3s
+      max_elapsed_time: 10s
 service:
   pipelines:
     logs:
@@ -27,7 +49,7 @@ service:
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [prometheusremotewrite]
+      exporters: [otlphttp/prometheus]
     traces:
       receivers: [otlp]
       processors: [batch]

@@ -1,6 +1,6 @@
 services:
   api:
-    image: todo-api:1.0
+    image: todo-api:1.1
     ports:
       - "8585:8080"
     environment:
