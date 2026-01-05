@@ -4,7 +4,7 @@ services:
     ports:
       - "8585:8080"
     environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017
+      - SPRING_MONGODB_URI=mongodb://mongodb:27017
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otelcol:4317
     depends_on:
       - mongodb
