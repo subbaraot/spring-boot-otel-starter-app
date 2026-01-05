@@ -7,9 +7,14 @@ image:
 
 app:
   name: todo-api
+  rootPath: "/"
 
 config:
   configMapName: todo-api-config
+  mongodb:
+    uri: mongodb://mongo:27017
+  otel:
+    endpoint: http://otelcol:4317
 
 resources:
   limits:

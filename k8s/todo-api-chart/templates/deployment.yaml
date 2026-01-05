@@ -53,4 +53,15 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.config.configMapName }}
+          env:
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: {{ .Values.app.rootPath }}
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+          {{ if .Values.config.otel.useNodeIP }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://$(NODE_IP):4317"
+          {{ end }}
           
