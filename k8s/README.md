@@ -8,6 +8,7 @@
 4. Configure the following helm repositories
    - Prometheus - `helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`.
    - Grafana - `helm repo add grafana https://grafana.github.io/helm-charts`.
+   - Grafana Community - `helm repo add grafana-community https://grafana-community.github.io/helm-charts`.
 5. If Helm repositories are already configured, run `helm repo update` to refresh the cache.
 
 ## Setup
@@ -29,13 +30,13 @@ helm install loki grafana/loki -f custom-values/loki-values.yaml
 ### Install Tempo
 
 ```bash
-helm install tempo grafana/tempo
+helm install tempo grafana-community/tempo
 ```
 
 ### Install Grafana
 
 ```bash
-helm install grafana grafana/grafana --set persistence.enabled=true
+helm install grafana grafana-community/grafana --set persistence.enabled=true
 ```
 
 ### Install OpenTelemetry Collector
@@ -101,3 +102,4 @@ helm uninstall loki
 helm uninstall grafana
 helm uninstall prometheus
 ```
+
