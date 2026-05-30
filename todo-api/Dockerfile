@@ -1,7 +1,7 @@
 FROM eclipse-temurin:25-jdk-ubi10-minimal AS build
 WORKDIR /app
 COPY . .
-RUN chmod +x mvnw && ./mvnw package
+RUN chmod +x mvnw && ./mvnw clean package
 
 FROM eclipse-temurin:25-jre-ubi10-minimal
 WORKDIR /app
